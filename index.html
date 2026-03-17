@@ -1,12 +1,208 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scream legacy — Хронология</title>
+    <title>Scream legacy — Timeline</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ... (Все предыдущие стили остаются без изменений) ... */
+        /* ========== КАСТОМНЫЙ СКРОЛЛБАР В СТИЛЕ SCREAM ========== */
+        
+        /* Для всей страницы */
+        ::-webkit-scrollbar {
+            width: 14px;
+            height: 14px;
+            background: #1a0a0a;
+        }
+
+        /* Дорожка */
+        ::-webkit-scrollbar-track {
+            background: linear-gradient(180deg, #1a0a0a 0%, #2d1a1a 50%, #1a0a0a 100%);
+            border-left: 2px solid #8b0000;
+            box-shadow: inset 0 0 15px rgba(139, 0, 0, 0.4);
+        }
+
+        /* Ползунок */
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #8b0000, #b30000, #8b0000);
+            border: 2px solid #ff6b6b;
+            border-radius: 20px;
+            box-shadow: 
+                0 0 20px #ff0000,
+                inset 0 0 15px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 100, 100, 0.4) 0%, transparent 20%),
+                radial-gradient(circle at 80% 60%, rgba(255, 100, 100, 0.4) 0%, transparent 25%),
+                radial-gradient(circle at 40% 80%, rgba(255, 100, 100, 0.4) 0%, transparent 15%),
+                linear-gradient(45deg, #8b0000, #b30000, #8b0000);
+            animation: scrollbarPulse 3s infinite ease-in-out;
+        }
+
+        /* Анимация пульсации для ползунка */
+        @keyframes scrollbarPulse {
+            0% {
+                box-shadow: 0 0 20px #ff0000, inset 0 0 15px rgba(255, 255, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 30px #ff4444, inset 0 0 25px rgba(255, 255, 255, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 20px #ff0000, inset 0 0 15px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        /* Эффект при наведении */
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #b30000, #ff0000, #b30000);
+            border-color: #ffaaaa;
+            box-shadow: 
+                0 0 35px #ff3333,
+                inset 0 0 25px rgba(255, 255, 255, 0.8);
+            transform: scaleX(1.1);
+            animation: none;
+        }
+
+        /* Эффект при нажатии */
+        ::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(45deg, #ff0000, #b30000, #ff0000);
+            border-color: #ffffff;
+            box-shadow: 
+                0 0 40px #ff6666,
+                inset 0 0 30px rgba(255, 255, 255, 0.9);
+            animation: none;
+        }
+
+        /* Уголок (где пересекаются полосы прокрутки) */
+        ::-webkit-scrollbar-corner {
+            background: #1a0a0a;
+            border: 1px solid #8b0000;
+        }
+
+        /* Для Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #8b0000 #1a0a0a;
+        }
+
+        /* Стили для горизонтального скролла */
+        ::-webkit-scrollbar:horizontal {
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-thumb:horizontal {
+            background: linear-gradient(90deg, #8b0000, #b30000, #8b0000);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 100, 100, 0.4) 0%, transparent 15%),
+                radial-gradient(circle at 50% 50%, rgba(255, 100, 100, 0.4) 0%, transparent 20%),
+                radial-gradient(circle at 80% 50%, rgba(255, 100, 100, 0.4) 0%, transparent 15%),
+                linear-gradient(90deg, #8b0000, #b30000, #8b0000);
+        }
+
+        /* Для контейнеров с overflow: auto (например, новости) */
+        .news-scroll-container::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .news-scroll-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #8b0000, #b30000);
+            border: 2px solid #ff6b6b;
+            border-radius: 20px;
+            box-shadow: 0 0 15px #ff0000;
+            animation: scrollbarPulse 2s infinite ease-in-out;
+        }
+
+        .news-scroll-container::-webkit-scrollbar-track {
+            background: rgba(20, 10, 10, 0.9);
+            border-left: 1px solid #8b0000;
+        }
+
+        /* Для модальных окон */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #8b0000, #b30000);
+            border: 2px solid #ff8888;
+            border-radius: 20px;
+            box-shadow: 0 0 20px #ff0000;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: #1a0a0a;
+            border-radius: 10px;
+        }
+
+        /* Эффект "кровавых капель" для браузеров, поддерживающих маски */
+        @supports (-webkit-mask-image: url()) or (mask-image: url()) {
+            ::-webkit-scrollbar-thumb {
+                -webkit-mask-image: radial-gradient(circle at 30% 40%, transparent 0%, transparent 30%, black 31%);
+                mask-image: radial-gradient(circle at 30% 40%, transparent 0%, transparent 30%, black 31%);
+            }
+        }
+
+        /* ========== ДЕКОРАТИВНЫЙ ЭЛЕМЕНТ - КРОВАВЫЙ СЛЕД ========== */
+        .blood-trail {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            background: linear-gradient(180deg, 
+                transparent 0%,
+                rgba(139, 0, 0, 0.1) 10%,
+                rgba(139, 0, 0, 0.2) 20%,
+                rgba(139, 0, 0, 0.3) 30%,
+                rgba(139, 0, 0, 0.2) 40%,
+                rgba(139, 0, 0, 0.1) 50%,
+                transparent 60%,
+                rgba(139, 0, 0, 0.1) 70%,
+                rgba(139, 0, 0, 0.2) 80%,
+                rgba(139, 0, 0, 0.1) 90%,
+                transparent 100%
+            );
+            filter: blur(3px);
+            animation: bloodDripScroll 5s linear infinite;
+        }
+
+        @keyframes bloodDripScroll {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 0 20px;
+            }
+        }
+
+        /* Добавляем капли крови на фон */
+        .blood-drops {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 5%),
+                radial-gradient(circle at 30% 60%, rgba(139, 0, 0, 0.1) 0%, transparent 8%),
+                radial-gradient(circle at 70% 30%, rgba(139, 0, 0, 0.1) 0%, transparent 6%),
+                radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 7%),
+                radial-gradient(circle at 40% 90%, rgba(139, 0, 0, 0.1) 0%, transparent 5%);
+            animation: bloodPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes bloodPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Все предыдущие стили остаются без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -3403,9 +3599,335 @@
             filter: drop-shadow(0 0 5px gold);
         }
 
-        /* Модальное окно входа */
+        /* ========== УЛУЧШЕННЫЕ СТИЛИ ДЛЯ АУТЕНТИФИКАЦИИ ========== */
+
+        /* Контейнер вкладок */
+        .auth-tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #8b0000;
+            padding-bottom: 15px;
+            justify-content: center;
+        }
+
+        /* Кнопки вкладок */
+        .auth-tab-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 22px;
+            font-weight: 900;
+            cursor: pointer;
+            padding: 0 5px 10px;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+        }
+
+        .auth-tab-btn.active {
+            color: #f88;
+            text-shadow: 0 0 15px #ff4444;
+        }
+
+        .auth-tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #8b0000, #ff4444, #8b0000);
+            animation: tabGlow 2s infinite;
+        }
+
+        @keyframes tabGlow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Поле ввода с меткой */
+        .auth-field {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .auth-label {
+            display: block;
+            color: #f88;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .auth-hint {
+            color: #888;
+            font-size: 12px;
+            font-weight: 400;
+            text-transform: none;
+            margin-left: 5px;
+        }
+
+        /* Контейнер для поля с паролем */
+        .password-field {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-field .auth-input {
+            width: 100%;
+            padding-right: 45px;
+        }
+
+        /* Переключатель видимости пароля */
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8b0000;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 10;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .password-toggle:hover {
+            color: #ff4444;
+            background: rgba(139, 0, 0, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Подсказка под полем */
+        .auth-field-note {
+            color: #888;
+            font-size: 12px;
+            margin-top: 5px;
+            padding-left: 10px;
+            font-style: italic;
+        }
+
+        /* Поля ввода */
+        .auth-input {
+            background: rgba(30, 30, 40, 0.8);
+            border: 2px solid #8b0000;
+            border-radius: 12px;
+            padding: 14px 18px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .auth-input:focus {
+            border-color: #ff4444;
+            box-shadow: 0 0 20px #ff0000;
+            background: rgba(40, 40, 50, 0.9);
+        }
+
+        .auth-input::placeholder {
+            color: rgba(200, 200, 200, 0.4);
+            font-style: italic;
+        }
+
+        /* Чекбокс "Запомнить меня" */
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ccc;
+            font-size: 14px;
+            margin: 15px 0;
+            padding: 5px 0;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #8b0000;
+            margin: 0;
+        }
+
+        .remember-me label {
+            cursor: pointer;
+        }
+
+        /* Кнопка отправки формы */
+        .auth-button {
+            background: #8b0000;
+            color: white;
+            border: 2px solid #ff8888;
+            border-radius: 40px;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .auth-button:hover {
+            background: #a00;
+            box-shadow: 0 0 30px #ff0000;
+            transform: scale(1.02);
+            border-color: #ffaaaa;
+        }
+
+        .auth-button i {
+            font-size: 16px;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+        }
+
+        /* Сообщение об ошибке */
+        .auth-error {
+            color: #ff8888;
+            text-align: center;
+            font-size: 14px;
+            margin: 10px 0;
+            padding: 8px;
+            background: rgba(139, 0, 0, 0.2);
+            border-radius: 8px;
+            border-left: 3px solid #8b0000;
+            font-weight: 500;
+        }
+
+        /* Стили для input date */
+        input[type="date"].auth-input {
+            color-scheme: dark;
+            color: white;
+            padding: 12px 18px;
+        }
+
+        input[type="date"].auth-input::-webkit-calendar-picker-indicator {
+            filter: invert(0.5) sepia(1) saturate(5) hue-rotate(0deg);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        input[type="date"].auth-input::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+            filter: invert(0.3) sepia(1) saturate(10) hue-rotate(0deg) brightness(1.2);
+        }
+
+        /* Убираем стандартные стрелки у числового поля */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Адаптация для мобильных устройств */
+        @media (max-width: 600px) {
+            .auth-modal .modal-content {
+                padding: 20px !important;
+                max-width: 95% !important;
+            }
+            
+            .auth-tab-btn {
+                font-size: 18px;
+            }
+            
+            .auth-label {
+                font-size: 13px;
+            }
+            
+            .auth-input {
+                padding: 12px 15px;
+                font-size: 15px;
+            }
+            
+            .auth-button {
+                padding: 14px;
+                font-size: 16px;
+            }
+            
+            .password-toggle {
+                width: 25px;
+                height: 25px;
+                font-size: 16px;
+            }
+        }
+
+        /* Анимация появления форм */
+        .auth-form {
+            animation: authFadeIn 0.4s ease-out;
+        }
+
+        @keyframes authFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Дополнительные стили для модального окна */
+        .auth-modal .modal-content {
+            max-width: 500px;
+            padding: 30px;
+            background: linear-gradient(165deg, #1a1518, #0f0a0d);
+            border: 2px solid #8b0000;
+            box-shadow: 0 0 50px rgba(139, 0, 0, 0.5);
+        }
+
+        /* Кровавый акцент для активной вкладки */
+        .auth-tab-btn.active {
+            color: #ff6b6b;
+            text-shadow: 0 0 20px #ff0000;
+        }
+
+        /* Стили для иконок в кнопках */
+        .auth-button i {
+            transition: transform 0.3s;
+        }
+
+        .auth-button:hover i {
+            transform: scale(1.1);
+        }
+
+        /* Улучшенный скролл для модального окна */
+        .auth-modal .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .auth-modal .modal-content::-webkit-scrollbar-track {
+            background: #1a0a0a;
+            border-radius: 10px;
+        }
+
+        .auth-modal .modal-content::-webkit-scrollbar-thumb {
+            background: #8b0000;
+            border-radius: 10px;
+            border: 1px solid #ff6b6b;
+        }
+
+        /* Модальное окно входа/регистрации */
         .auth-modal {
-            max-width: 450px;
+            max-width: 500px;
         }
 
         .auth-form {
@@ -3424,6 +3946,7 @@
             font-size: 18px;
             outline: none;
             transition: 0.3s;
+            width: 100%;
         }
 
         .auth-input::placeholder {
@@ -5238,7 +5761,7 @@
                     <i class="fas fa-arrow-left"></i>
                     <span>BACK</span>
                 </button>
-                <div class="page-title">🎬 ХРОНОЛОГИЯ КРИКА</div>
+                <div class="page-title">🎬 SCREAM TIMELINE</div>
             </div>
             <!-- Кнопка добавления фильма для админа -->
             <div class="admin-only" style="display: flex; gap: 10px;">
@@ -5253,7 +5776,7 @@
                     <!-- Фильмы будут загружаться сюда динамически через JS -->
                 </div>
             </div>
-            <p style="text-align: center; color: #b88; margin-top: 40px; font-style: italic; font-size: 20px;">🩸 Временная цепочка легендарной франшизы. Каждый фильм — часть кровавого наследия.</p>
+            <p style="text-align: center; color: #b88; margin-top: 40px; font-style: italic; font-size: 20px;">🩸 The timeline of a legendary franchise. Each film is part of a bloody legacy.</p>
         </div>
     </div>
 
@@ -5291,7 +5814,7 @@
                     <i class="fas fa-arrow-left"></i>
                     <span>BACK TO FILMOGRAPHY</span>
                 </button>
-                <div class="page-title">🎬 ДЕТАЛИ ФИЛЬМА</div>
+                <div class="page-title">🎬 FILM DETAILS</div>
             </div>
             <!-- Верхние кнопки УБРАНЫ -->
         </div>
@@ -5377,7 +5900,7 @@
                     <i class="fas fa-arrow-left"></i>
                     <span>BACK TO CHARACTERS</span>
                 </button>
-                <div class="page-title">👤 ДЕТАЛИ ПЕРСОНАЖА</div>
+                <div class="page-title">👤 CHARACTER DETAILS</div>
             </div>
             <!-- Верхние кнопки УБРАНЫ -->
         </div>
@@ -5412,8 +5935,8 @@
                         <span class="director-years" contenteditable="false">1939 — 2015</span>
                         <div class="director-name" contenteditable="false">WES CRAVEN</div>
                         <div class="director-bio" contenteditable="false">
-                            Отец современного хоррора. Создал не только Фредди Крюгера, но и подарил миру Ghostface. 
-                            Его видение и любовь к жанру сделали «Крик» революцией в слэшерах.
+                            Father of modern horror. He not only created Freddy Krueger but also gave the world Ghostface. 
+                            His vision and love for the genre made "Scream" a revolution in slashers.
                         </div>
                     </div>
                 </div>
@@ -5432,8 +5955,8 @@
                         <span class="director-years" contenteditable="false">2026 (debut as director)</span>
                         <div class="director-name" contenteditable="false">KEVIN WILLIAMSON</div>
                         <div class="director-bio" contenteditable="false">
-                            Создатель вселенной «Крика». Именно он написал сценарии первых двух частей, 
-                            задав тон всей франшизе. В 2026 возвращается как режиссёр седьмой главы.
+                            Creator of the "Scream" universe. He wrote the scripts for the first two films, 
+                            setting the tone for the entire franchise. In 2026, he returns as the director of the seventh chapter.
                         </div>
                     </div>
                     
@@ -5461,9 +5984,9 @@
                         
                         <div style="width:100%; margin-top:15px;">
                             <div class="director-bio" style="border-top:2px solid #8b0000; padding-top:15px;" contenteditable="false">
-                                Дуэт Radio Silence. Вернули «Крику» жизнь после ухода Уэса Крейвена. 
-                                Их работы (5 и 6 части) с любовью и уважением продолжили наследие, 
-                                добавив современный стиль и новые правила.
+                                The Radio Silence duo. Brought "Scream" back to life after Wes Craven's passing. 
+                                Their work (parts 5 and 6) continued the legacy with love and respect, 
+                                adding modern style and new rules.
                             </div>
                         </div>
                     </div>
@@ -5477,8 +6000,8 @@
                     <div class="director-card" style="grid-column:span 2; opacity:0.9;" data-id="memoriam">
                         <div class="director-name" style="font-size:32px;" contenteditable="false">🕯️ IN MEMORIAM</div>
                         <div class="director-bio" style="font-size:20px; padding:20px;" contenteditable="false">
-                            Каждый режиссёр, работавший над «Криком», внёс свой вклад в легенду.<br>
-                            От Уэса Крейвена до Radio Silence — все они заслуживают вечной благодарности.
+                            Every director who worked on "Scream" contributed to the legend.<br>
+                            From Wes Craven to Radio Silence — they all deserve eternal gratitude.
                         </div>
                     </div>
                 </div>
@@ -5770,20 +6293,97 @@
             </div>
         </div>
 
-        <!-- МОДАЛКА ВХОДА -->
+        <!-- МОДАЛКА ВХОДА И РЕГИСТРАЦИИ -->
         <div id="loginModal" class="modal">
-            <div class="modal-content auth-modal">
+            <div class="modal-content auth-modal" style="max-width: 500px; padding: 30px;">
                 <span class="modal-close" onclick="closeModal('loginModal')">&times;</span>
-                <div class="modal-title">🔪 SIGN IN</div>
-                <div class="auth-form">
-                    <input type="text" class="auth-input" id="loginUsername" placeholder="Tell me your name...">
-                    <input type="password" class="auth-input" id="loginPassword" placeholder="Your code word, hmm?">
+                
+                <!-- Вкладки входа/регистрации -->
+                <div class="auth-tabs">
+                    <button id="loginTabBtn" class="auth-tab-btn active" onclick="switchAuthTab('login')">SIGN IN</button>
+                    <button id="registerTabBtn" class="auth-tab-btn" onclick="switchAuthTab('register')">CREATE ACCOUNT</button>
+                </div>
+                
+                <!-- Форма входа -->
+                <div id="loginForm" class="auth-form" style="display: block;">
+                    <div class="auth-field">
+                        <label class="auth-label">Username</label>
+                        <input type="text" class="auth-input" id="loginUsername" placeholder="Enter your username...">
+                    </div>
+                    
+                    <div class="auth-field">
+                        <label class="auth-label">Password</label>
+                        <div class="password-field">
+                            <input type="password" class="auth-input" id="loginPassword" placeholder="Enter your password...">
+                            <span class="password-toggle" onclick="togglePassword('loginPassword')">
+                                <i class="far fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    
                     <div class="remember-me">
                         <input type="checkbox" id="rememberMe" checked>
-                        <label for="rememberMe">Remember me</label>
+                        <label for="rememberMe">Remember me on this device</label>
                     </div>
+                    
                     <div class="auth-error" id="loginError"></div>
-                    <button class="auth-button" onclick="handleLogin()">Enter the nightmare</button>
+                    
+                    <button class="auth-button" onclick="handleLogin()">
+                        <i class="fas fa-phone-alt"></i>
+                        Enter the nightmare
+                    </button>
+                </div>
+                
+                <!-- Форма регистрации -->
+                <div id="registerForm" class="auth-form" style="display: none;">
+                    <div class="auth-field">
+                        <label class="auth-label">
+                            Username <span class="auth-hint">(cannot be changed later)</span>
+                        </label>
+                        <input type="text" class="auth-input" id="regLogin" placeholder="e.g., ghostface_fan" maxlength="30" oninput="validateUsername(this)">
+                        <div class="auth-field-note">Only English letters, numbers and _</div>
+                        <div id="usernameAvailability" style="font-size: 12px; margin-top: 5px; padding-left: 10px; color: #888;"></div>
+                    </div>
+                    
+                    <div class="auth-field">
+                        <label class="auth-label">
+                            Display name <span class="auth-hint">(you can change later)</span>
+                        </label>
+                        <input type="text" class="auth-input" id="regDisplayName" placeholder="How should we call you?" maxlength="50">
+                    </div>
+                    
+                    <div class="auth-field">
+                        <label class="auth-label">Birth date</label>
+                        <input type="date" class="auth-input" id="regBirthDate" max="2026-03-16" style="color-scheme: dark;">
+                    </div>
+                    
+                    <div class="auth-field">
+                        <label class="auth-label">Password</label>
+                        <div class="password-field">
+                            <input type="password" class="auth-input" id="regPassword" placeholder="Create a password...">
+                            <span class="password-toggle" onclick="togglePassword('regPassword')">
+                                <i class="far fa-eye"></i>
+                            </span>
+                        </div>
+                        <div class="auth-field-note">Min. 6 characters, at least one letter and one number</div>
+                    </div>
+                    
+                    <div class="auth-field">
+                        <label class="auth-label">Confirm password</label>
+                        <div class="password-field">
+                            <input type="password" class="auth-input" id="regConfirmPassword" placeholder="Confirm your password...">
+                            <span class="password-toggle" onclick="togglePassword('regConfirmPassword')">
+                                <i class="far fa-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="auth-error" id="registerError"></div>
+                    
+                    <button class="auth-button" onclick="handleRegister()">
+                        <i class="fas fa-user-plus"></i>
+                        Create account
+                    </button>
                 </div>
             </div>
         </div>
@@ -5928,6 +6528,10 @@
             <p style="margin-top: 10px; color: #a55;">“We all go a little mad sometimes.” — Billy Loomis</p>
         </footer>
     </div>
+
+    <!-- Декоративные элементы -->
+    <div class="blood-trail"></div>
+    <div class="blood-drops"></div>
 
     <!-- НОВЫЙ ЭКРАН ВЫХОДА (OVERLAY) -->
     <div id="exit-overlay">
@@ -6154,20 +6758,20 @@
             history.pushState({ page: pageId }, '', url);
             
             if (currentUser) {
-                addToHistory(`Открыл раздел: ${getPageTitle(pageId)}`, 'page', pageId);
+                addToHistory(`Opened section: ${getPageTitle(pageId)}`, 'page', pageId);
             }
         };
 
         function getPageTitle(pageId) {
             const titles = {
-                history: 'История',
-                filmography: 'Хронология фильмов',
-                characters: 'Персонажи',
-                directors: 'Режиссёры',
-                facts: 'Факты',
-                gallery: 'галерея',
-                filmDetail: 'Детали фильма',
-                characterDetail: 'Детали персонажа'
+                history: 'History',
+                filmography: 'Filmography',
+                characters: 'Characters',
+                directors: 'Directors',
+                facts: 'Facts',
+                gallery: 'Gallery',
+                filmDetail: 'Film Details',
+                characterDetail: 'Character Details'
             };
             return titles[pageId] || pageId;
         }
@@ -6305,35 +6909,35 @@
                     {
                         date: "🎃 OCTOBER 31, 2026",
                         title: "Ghostface Returns?",
-                        full: "🔪 Halloween special: Продюсеры официально намекнули на возвращение культового персонажа в седьмой части франшизы. По слухам, студия хочет удивить фанатов и связать новую историю с оригинальной трилогией. Имя актёра держится в секрете, но инсайдеры утверждают, что это будет не просто камео, а полноценная роль. Поклонники уже создают теории и делятся ими в соцсетях. Ожидайте анонс в ближайшие месяцы.",
+                        full: "🔪 Halloween special: Producers have officially hinted at the return of the iconic character in the seventh installment of the franchise. Rumors suggest the studio wants to surprise fans and connect the new story with the original trilogy. The actor's name is kept secret, but insiders claim it will be more than just a cameo, but a full-fledged role. Fans are already creating theories and sharing them on social media. Expect an announcement in the coming months.",
                         id: "news1",
                         image: null
                     },
                     {
                         date: "🎬 MARCH 15, 2026",
                         title: "New Sequel Rumors",
-                        full: "🎬 Слухи: Съёмки новой части «Крика» начнутся уже весной 2026 года. Режиссёрское кресло снова займут Radio Silence — Мэтт Беттинелли-Олпин и Тайлер Джиллетт. Сценарий пишут Джеймс Вандербильт и Гай Бусик. По информации источников, студия планирует расширить вселенную и добавить несколько новых персонажей, которые станут центральными в следующих фильмах. Бюджет будет значительно выше, чем у предыдущих частей.",
+                        full: "🎬 Rumors: Filming of the new 'Scream' part will begin in spring 2026. Radio Silence — Matt Bettinelli-Olpin and Tyler Gillett — will take the director's chair again. The script is being written by James Vanderbilt and Guy Busick. According to sources, the studio plans to expand the universe and add several new characters who will become central in the following films. The budget will be significantly higher than previous installments.",
                         id: "news2",
                         image: null
                     },
                     {
                         date: "🖤 FEBRUARY 8, 2026",
                         title: "Neve Campbell Interview",
-                        full: "🖤 Интервью с Нив Кэмпбелл: Актриса, исполнившая роль Сидни Прескотт, заявила, что готова вернуться к образу, если сценарий будет достоин. «Я люблю эту франшизу и персонажа, но не готова участвовать в проекте только ради денег. Мне важно, чтобы история имела смысл и уважала наследие Уэса Крейвена», — отметила Нив. Поклонники надеются, что студия сможет договориться с актрисой.",
+                        full: "🖤 Interview with Neve Campbell: The actress who played Sidney Prescott stated that she is ready to return to the role if the script is worthy. 'I love this franchise and the character, but I'm not ready to participate in a project just for money. It's important to me that the story makes sense and respects Wes Craven's legacy,' Neve noted. Fans hope the studio can come to an agreement with the actress.",
                         id: "news3",
                         image: null
                     },
                     {
                         date: "🩸 JANUARY 22, 2026",
                         title: "Unused Mask Leaked",
-                        full: "🩸 Эксклюзив: Концепт-арты неиспользованной маски для Scream 6 утекли в сеть. Дизайн сильно отличался от финального — маска была более потрескавшейся, с металлическим блеском и кровавыми разводами. Фанаты разделились во мнениях: одни считают, что такой вариант был бы интереснее, другие рады, что оставили классику. Художники студии пока не комментируют утечку.",
+                        full: "🩸 Exclusive: Concept art of an unused mask for Scream 6 has leaked online. The design was very different from the final one — the mask was more cracked, with a metallic sheen and bloody streaks. Fans are divided: some think this option would have been more interesting, others are glad they kept the classic. Studio artists are not commenting on the leak yet.",
                         id: "news4",
                         image: null
                     },
                     {
                         date: "📺 DECEMBER 5, 2025",
                         title: "Scream TV Series?",
-                        full: "📺 Сериал по мотивам «Крика» находится в разработке у Paramount+. Проект будет расширять вселенную, но не повторять сюжет фильмов. Действие развернётся в том же городе, но с новыми персонажами. Продюсеры обещают сохранить дух оригинала — много чёрного юмора, самопародии и, конечно, напряжённые сцены с Ghostface. Дата выхода пока не объявлена.",
+                        full: "📺 A series based on 'Scream' is in development at Paramount+. The project will expand the universe but not repeat the plot of the films. The action will take place in the same town but with new characters. Producers promise to preserve the spirit of the original — lots of black humor, self-parody, and of course, tense scenes with Ghostface. Release date not yet announced.",
                         id: "news5",
                         image: null
                     }
@@ -6395,7 +6999,7 @@
                     body.classList.add('modal-open');
                     
                     if (currentUser) {
-                        addToHistory(`Прочитал новость: ${title}`, 'news', newsId, {
+                        addToHistory(`Read news: ${title}`, 'news', newsId, {
                             date: date,
                             title: title,
                             fullText: fullText
@@ -6424,7 +7028,7 @@
             newsToDelete = null;
             
             if (currentUser) {
-                addToHistory('Удалил новость', 'news', 'delete');
+                addToHistory('Deleted news', 'news', 'delete');
             }
         };
 
@@ -6547,7 +7151,7 @@
             removeNewsImage();
             
             if (currentUser) {
-                addToHistory(`Добавил новость: ${title}`, 'news', newNews.id, newNews);
+                addToHistory(`Added news: ${title}`, 'news', newNews.id, newNews);
             }
             
             alert('News published successfully!');
@@ -6572,6 +7176,14 @@
                 el.style.outline = 'none';
                 el.style.backgroundColor = 'transparent';
             });
+
+            // Если закрываем модалку входа, сбрасываем на вкладку входа
+            if (id === 'loginModal') {
+                switchAuthTab('login');
+                document.getElementById('loginPassword').value = '';
+                document.getElementById('regPassword').value = '';
+                document.getElementById('regConfirmPassword').value = '';
+            }
         };
 
         window.addEventListener('click', e => {
@@ -6638,8 +7250,11 @@
         // ========== СИСТЕМА ПРОФИЛЯ ==========
         let currentUser = null;
         
-        const usersDB = {
-            username: {
+        const usersDB = {};
+
+        // Добавляем существующих пользователей
+        if (!usersDB['username']) {
+            usersDB['username'] = {
                 username: 'username',
                 password: 'username',
                 displayName: 'Ghostface Fan',
@@ -6647,10 +7262,14 @@
                 birthDate: '1996-12-20',
                 registrationDate: new Date().toISOString(),
                 avatarUrl: '',
-                favorites: ['Гейл Уэзерс', 'Дьюи Райли'],
-                history: []
-            },
-            admin: {
+                favorites: ['Gale Weathers', 'Dewey Riley'],
+                history: [],
+                isAdmin: false
+            };
+        }
+
+        if (!usersDB['admin']) {
+            usersDB['admin'] = {
                 username: 'admin',
                 password: 'admin',
                 displayName: '🕯️ Master of Scream',
@@ -6658,11 +7277,11 @@
                 birthDate: '1996-12-20',
                 registrationDate: new Date().toISOString(),
                 avatarUrl: '',
-                favorites: ['Сидни Прескотт', 'Билли Лумис'],
+                favorites: ['Sidney Prescott', 'Billy Loomis'],
                 history: [],
                 isAdmin: true
-            }
-        };
+            };
+        }
 
         const STORAGE_KEY = 'scream_user_data';
 
@@ -6749,8 +7368,8 @@
             const rememberMe = document.getElementById('rememberMe').checked;
             const errorEl = document.getElementById('loginError');
 
-            if (!username.match(/^[a-zA-Z_]+$/)) {
-                errorEl.textContent = 'Username must contain only English letters and _';
+            if (!username.match(/^[a-zA-Z0-9_]+$/)) {
+                errorEl.textContent = 'Username must contain only English letters, numbers and _';
                 return;
             }
 
@@ -6767,9 +7386,12 @@
                 updateAuthUI();
                 updateAllFavorites();
                 updateAdminUI();
-                addToHistory('Вошёл в аккаунт', 'auth', 'login');
+                addToHistory('Logged in', 'auth', 'login');
                 
                 errorEl.textContent = '';
+                
+                // Сбрасываем поле пароля
+                document.getElementById('loginPassword').value = '';
             } else {
                 errorEl.textContent = 'Invalid username or password';
             }
@@ -6788,7 +7410,7 @@
             updateAuthUI();
             updateAllFavorites();
             updateAdminUI();
-            addToHistory('Вышел из аккаунта', 'auth', 'logout');
+            addToHistory('Logged out', 'auth', 'logout');
         };
 
         function updateAuthUI() {
@@ -6922,7 +7544,7 @@
             saveUserData();
             updateProfileModal();
             updateAuthUI();
-            addToHistory('Обновил профиль', 'profile', 'edit');
+            addToHistory('Updated profile', 'profile', 'edit');
             
             alert('Profile updated successfully!');
             
@@ -7325,7 +7947,7 @@
             saveGallery();
             renderGalleryAlbums();
             closeModal('addAlbumModal');
-            if (currentUser) addToHistory(`Создал альбом: ${name}`, 'gallery', newAlbum.id);
+            if (currentUser) addToHistory(`Created album: ${name}`, 'gallery', newAlbum.id);
         };
 
         window.openUploadModal = function(albumId) {
@@ -7410,7 +8032,7 @@
                         renderGalleryAlbums();
                         closeModal('uploadImageModal');
                         pendingFiles = [];
-                        if (currentUser) addToHistory(`Добавил ${loaded} изображений в альбом "${album.name}"`, 'gallery', album.id);
+                        if (currentUser) addToHistory(`Added ${loaded} images to album "${album.name}"`, 'gallery', album.id);
                     }
                 };
                 reader.readAsDataURL(file);
@@ -7427,7 +8049,7 @@
                 saveGallery();
                 renderGalleryAlbums();
                 closeModal('confirmAlbumModal');
-                if (currentUser) addToHistory(`Удалил альбом: ${album.name}`, 'gallery', albumId);
+                if (currentUser) addToHistory(`Deleted album: ${album.name}`, 'gallery', albumId);
             };
             document.getElementById('confirmAlbumModal').style.display = 'flex';
             body.classList.add('modal-open');
@@ -7443,7 +8065,7 @@
                 saveGallery();
                 renderGalleryAlbums();
                 closeModal('confirmAlbumModal');
-                if (currentUser) addToHistory(`Удалил изображение из альбома "${album.name}"`, 'gallery', albumId);
+                if (currentUser) addToHistory(`Deleted image from album "${album.name}"`, 'gallery', albumId);
             };
             document.getElementById('confirmAlbumModal').style.display = 'flex';
             body.classList.add('modal-open');
@@ -7499,12 +8121,12 @@
                 factsData = JSON.parse(saved);
             } else {
                 factsData = [
-                    { icon: 'fa-mask', text: 'Знаменитая маска Ghostface была куплена в обычном магазине костюмов за 39 долларов. Создатели фильма просто изменили цвет ткани с синего на чёрный.' },
-                    { icon: 'fa-star', text: 'Дрю Бэрримор была главной звездой в рекламной кампании, но её персонаж погибает в первой сцене. Это был гениальный ход — никто не чувствовал себя в безопасности.' },
-                    { icon: 'fa-phone-alt', text: 'Сценарист Кевин Уильямсон написал первый черновик сценария за три дня, вдохновившись реальным преследованием и просмотром фильмов ужасов.' },
-                    { icon: 'fa-video', text: 'Уэс Крейвен сначала отказался снимать «Крик». Его убедила только искренняя любовь к сценарию и участие Дрю Бэрримор.' },
-                    { icon: 'fa-book-open', text: 'Все правила выживания в хорроре, озвученные Рэнди, были написаны Уильямсоном как дань уважения классическим слэшерам и их клише.' },
-                    { icon: 'fa-cut', text: 'Создатели настаивали, что любой персонаж может умереть. Даже Дьюи, которого обожали фанаты, погиб в пятой части.' }
+                    { icon: 'fa-mask', text: 'The famous Ghostface mask was bought at a regular costume store for $39. The filmmakers simply changed the color of the fabric from blue to black.' },
+                    { icon: 'fa-star', text: 'Drew Barrymore was the biggest star in the advertising campaign, but her character dies in the opening scene. It was a brilliant move — no one felt safe.' },
+                    { icon: 'fa-phone-alt', text: 'Screenwriter Kevin Williamson wrote the first draft of the script in three days, inspired by a real-life stalking and watching horror movies.' },
+                    { icon: 'fa-video', text: 'Wes Craven initially refused to direct "Scream". He was only convinced by his sincere love for the script and Drew Barrymore\'s involvement.' },
+                    { icon: 'fa-book-open', text: 'All the survival rules in horror movies voiced by Randy were written by Williamson as a tribute to classic slashers and their clichés.' },
+                    { icon: 'fa-cut', text: 'The creators insisted that any character could die. Even Dewey, who was loved by fans, died in the fifth part.' }
                 ];
                 saveFacts();
             }
@@ -7577,7 +8199,7 @@
             closeModal('addFactModal');
             
             if (currentUser) {
-                addToHistory(`Добавил факт: ${text.substring(0, 30)}...`, 'fact', factsData.length - 1);
+                addToHistory(`Added fact: ${text.substring(0, 30)}...`, 'fact', factsData.length - 1);
             }
         };
 
@@ -7598,7 +8220,7 @@
             factToDelete = null;
             
             if (currentUser) {
-                addToHistory('Удалил факт', 'fact', 'delete');
+                addToHistory('Deleted fact', 'fact', 'delete');
             }
         };
 
@@ -7703,12 +8325,6 @@
             directorsData.quote = quote;
             
             localStorage.setItem('scream_directors', JSON.stringify(directorsData));
-            
-            // Показываем уведомление (но не спамим)
-            // Можно показывать только если были изменения, но для простоты оставим тихое сохранение
-            // if (currentUser) {
-            //     addToHistory('Обновил данные режиссёров', 'directors', 'edit');
-            // }
         }
 
         // Загрузить сохранённые данные
@@ -7876,7 +8492,7 @@
                 saveAllDirectorsData();
                 
                 if (currentUser) {
-                    addToHistory(`Обновил фото режиссёра`, 'directors', 'photo');
+                    addToHistory(`Updated director photo`, 'directors', 'photo');
                 }
             }
         };
@@ -8118,7 +8734,7 @@
             saveHistoryChapters();
             
             if (currentUser) {
-                addToHistory(`Обновил текст в главе: ${chapterData.title}`, 'history', 'edit');
+                addToHistory(`Updated text in chapter: ${chapterData.title}`, 'history', 'edit');
             }
         }
 
@@ -8170,7 +8786,7 @@
             closeModal('addChapterModal');
             
             if (currentUser) {
-                addToHistory(`Добавил новую главу: ${title}`, 'history', newChapter.id);
+                addToHistory(`Added new chapter: ${title}`, 'history', newChapter.id);
             }
         };
 
@@ -8192,7 +8808,7 @@
                     renderHistoryChapters();
                     
                     if (currentUser) {
-                        addToHistory(`Удалил главу: ${chapter.title}`, 'history', 'delete');
+                        addToHistory(`Deleted chapter: ${chapter.title}`, 'history', 'delete');
                     }
                 }
                 closeModal('confirmAlbumModal');
@@ -8232,7 +8848,7 @@
                 currentEditingChapterId = null;
                 
                 if (currentUser) {
-                    addToHistory(`Добавил абзац в главу: ${chapter.title}`, 'history', 'paragraph');
+                    addToHistory(`Added paragraph to chapter: ${chapter.title}`, 'history', 'paragraph');
                 }
             }
         };
@@ -8291,7 +8907,7 @@
                 renderHistoryChapters();
                 
                 if (currentUser) {
-                    addToHistory(`Удалил изображение из главы: ${chapter.title}`, 'history', 'image');
+                    addToHistory(`Deleted image from chapter: ${chapter.title}`, 'history', 'image');
                 }
                 closeModal('confirmAlbumModal');
             };
@@ -8375,7 +8991,7 @@
                 window.tempHistoryImage = null;
                 
                 if (currentUser) {
-                    addToHistory(`${action === 'replace' ? 'Заменил' : 'Добавил'} изображение в главе: ${chapter.title}`, 'history', 'image');
+                    addToHistory(`${action === 'replace' ? 'Replaced' : 'Added'} image in chapter: ${chapter.title}`, 'history', 'image');
                 }
             }
         };
@@ -8396,7 +9012,7 @@
                         title: '🔪 SCREAM',
                         year: '1996',
                         type: '🎬 Original Slasher',
-                        desc: 'Начало легенды. Правило №1: никогда не говори «потом».',
+                        desc: 'The beginning of the legend. Rule #1: never say "I\'ll be right back".',
                         poster: 'https://avatars.mds.yandex.net/i?id=dc5e93cdec40e891f8e319955d291177_l-5385409-images-thumbs&n=13'
                     },
                     {
@@ -8404,7 +9020,7 @@
                         title: '🔪 SCREAM 2',
                         year: '1997',
                         type: '🎬 Sequel',
-                        desc: 'Сиквелы — это ещё сложнее. Убийца всегда среди нас.',
+                        desc: 'Sequels are even harder. The killer is always among us.',
                         poster: 'https://avatars.mds.yandex.net/i?id=8123ce118ec1f4660c449ed4479fe596_l-9865355-images-thumbs&n=13'
                     },
                     {
@@ -8412,7 +9028,7 @@
                         title: '🔪 SCREAM 3',
                         year: '2000',
                         type: '🎬 Finale of trilogy',
-                        desc: 'Голливуд. Тайны прошлого. Третья часть — без права на ошибку.',
+                        desc: 'Hollywood. Secrets of the past. The third part — no room for error.',
                         poster: 'https://xl.movieposterdb.com/13_02/2000/134084/xl_134084_20e9326a.jpg'
                     },
                     {
@@ -8420,7 +9036,7 @@
                         title: '🔪 SCREAM 4',
                         year: '2011',
                         type: '🎬 Reboot / Requel',
-                        desc: 'Новое десятилетие, новые правила, старый страх.',
+                        desc: 'New decade, new rules, old fear.',
                         poster: 'https://static.kinoafisha.info/k/movie_posters/1920x1080/upload/movie_posters/0/7/0/8088070/845854c993904c8bc925175f0bce1d23.jpg'
                     },
                     {
@@ -8428,7 +9044,7 @@
                         title: '📺 SCREAM (TV series)',
                         year: '2015–2019',
                         type: '📼 Television series',
-                        desc: 'Маска в новом формате. 3 сезона, новая история, тот же Ghostface.',
+                        desc: 'The mask in a new format. 3 seasons, new story, same Ghostface.',
                         poster: 'https://m.media-amazon.com/images/M/MV5BOGUyZGMzMTItN2M0ZS00ZDI5LWFkZGMtMmUzMTE0MTk1NWFlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg'
                     },
                     {
@@ -8436,7 +9052,7 @@
                         title: '🔪 SCREAM (2022)',
                         year: '2022',
                         type: '🎬 Legacy-quel',
-                        desc: 'Возвращение в Вудсборо. Новое поколение встречает старых героев.',
+                        desc: 'Return to Woodsboro. A new generation meets old heroes.',
                         poster: 'https://avatars.mds.yandex.net/i?id=653194dc77496b9e086ecfb156b5149a_l-8901646-images-thumbs&n=13'
                     },
                     {
@@ -8444,7 +9060,7 @@
                         title: '🔪 SCREAM VI',
                         year: '2023',
                         type: '🗽 New York',
-                        desc: 'Большой город, большие проблемы. Ghostface в Нью-Йорке.',
+                        desc: 'Big city, big problems. Ghostface in New York.',
                         poster: 'http://images-s.kinorium.com/movie/poster/8491058/w1500_51537224.jpg'
                     },
                     {
@@ -8452,7 +9068,7 @@
                         title: '🔪 SCREAM 7',
                         year: '2026',
                         type: '🎬 Upcoming',
-                        desc: 'Седьмая глава. Что будет дальше? Только тишина перед криком...',
+                        desc: 'The seventh chapter. What\'s next? Only silence before the scream...',
                         poster: 'https://www.soyuz.ru/public/uploads/files/3/7649719/20251030175539803fa80865.jpg'
                     }
                 ];
@@ -8561,7 +9177,7 @@
             closeModal('addFilmSectionModal');
             
             if (currentUser) {
-                addToHistory(`Добавил секцию "${title}" в детали фильма`, 'film', 'edit');
+                addToHistory(`Added section "${title}" to film details`, 'film', 'edit');
             }
             
             alert('Section added successfully!');
@@ -8626,7 +9242,7 @@
             currentFilmId = null;
             
             if (currentUser) {
-                addToHistory(`Добавил параграф в секцию деталей фильма`, 'film', 'edit');
+                addToHistory(`Added paragraph to film details section`, 'film', 'edit');
             }
             
             alert('Paragraph added successfully!');
@@ -8690,7 +9306,7 @@
             currentFilmId = null;
             
             if (currentUser) {
-                addToHistory(`Добавил заголовок в секцию деталей фильма`, 'film', 'edit');
+                addToHistory(`Added heading to film details section`, 'film', 'edit');
             }
             
             alert('Heading added successfully!');
@@ -8852,7 +9468,7 @@
             history.pushState({ page: 'filmDetail', filmId: filmId }, '', url);
             
             if (currentUser) {
-                addToHistory(`Просмотр деталей фильма: ${film.title}`, 'film', film.id);
+                addToHistory(`Viewed film details: ${film.title}`, 'film', film.id);
             }
             
             updateAdminUI();
@@ -8974,7 +9590,7 @@
             localStorage.setItem('scream_film_details', JSON.stringify(filmDetailsData));
             
             if (currentUser) {
-                addToHistory(`Обновил детали фильма`, 'film', 'edit');
+                addToHistory(`Updated film details`, 'film', 'edit');
             }
         }
 
@@ -9012,7 +9628,7 @@
             filmSectionToDelete = null;
             
             if (currentUser) {
-                addToHistory(`Удалил секцию из деталей фильма`, 'film', 'edit');
+                addToHistory(`Deleted section from film details`, 'film', 'edit');
             }
             
             alert('Section deleted successfully!');
@@ -9054,7 +9670,7 @@
             closeModal('addCastModal');
             
             if (currentUser) {
-                addToHistory(`Добавил актера "${name}" в детали фильма`, 'film', 'edit');
+                addToHistory(`Added actor "${name}" to film details`, 'film', 'edit');
             }
             
             alert('Actor added successfully!');
@@ -9080,7 +9696,7 @@
             renderFilmDetail(filmId, film);
             
             if (currentUser) {
-                addToHistory(`Удалил актера из деталей фильма`, 'film', 'edit');
+                addToHistory(`Removed actor from film details`, 'film', 'edit');
             }
         };
 
@@ -9275,7 +9891,7 @@
             currentEditingFilmId = null;
             
             if (currentUser) {
-                addToHistory(filmId ? `Отредактировал фильм: ${title}` : `Добавил фильм: ${title}`, 'film', 'edit');
+                addToHistory(filmId ? `Edited film: ${title}` : `Added film: ${title}`, 'film', 'edit');
             }
         };
 
@@ -9293,7 +9909,7 @@
                 closeModal('confirmAlbumModal');
                 
                 if (currentUser) {
-                    addToHistory(`Удалил фильм: ${film.title}`, 'film', 'delete');
+                    addToHistory(`Deleted film: ${film.title}`, 'film', 'delete');
                 }
             };
             document.getElementById('confirmAlbumModal').style.display = 'flex';
@@ -9313,49 +9929,49 @@
                 charactersData = [
                     {
                         id: 'char1',
-                        name: 'Сидни Прескотт',
-                        actor: 'Нив Кэмпбелл',
-                        bio: 'Финальная девушка. Выжившая. Символ стойкости.',
+                        name: 'Sidney Prescott',
+                        actor: 'Neve Campbell',
+                        bio: 'The final girl. Survivor. Symbol of resilience.',
                         photo: '',
                         isDead: false
                     },
                     {
                         id: 'char2',
-                        name: 'Гейл Уэзерс',
-                        actor: 'Кортни Кокс',
-                        bio: 'Репортёр, которая стала героиней.',
+                        name: 'Gale Weathers',
+                        actor: 'Courteney Cox',
+                        bio: 'Reporter who became a heroine.',
                         photo: '',
                         isDead: false
                     },
                     {
                         id: 'char3',
-                        name: 'Дьюи Райли',
-                        actor: 'Дэвид Аркетт',
-                        bio: 'Шериф с добрым сердцем.',
+                        name: 'Dewey Riley',
+                        actor: 'David Arquette',
+                        bio: 'Sheriff with a kind heart.',
                         photo: '',
                         isDead: true
                     },
                     {
                         id: 'char4',
-                        name: 'Билли Лумис',
-                        actor: 'Скит Ульрих',
-                        bio: 'Первый Ghostface. Икона.',
+                        name: 'Billy Loomis',
+                        actor: 'Skeet Ulrich',
+                        bio: 'The first Ghostface. Icon.',
                         photo: '',
                         isDead: true
                     },
                     {
                         id: 'char5',
-                        name: 'Стю Махер',
-                        actor: 'Мэттью Лиллард',
-                        bio: '"Я всегда хотел быть в кино!"',
+                        name: 'Stu Macher',
+                        actor: 'Matthew Lillard',
+                        bio: '"I\'ve always wanted to be in a movie!"',
                         photo: '',
                         isDead: true
                     },
                     {
                         id: 'char6',
-                        name: 'Рэнди Микс',
-                        actor: 'Джейми Кеннеди',
-                        bio: 'Хранитель правил.',
+                        name: 'Randy Meeks',
+                        actor: 'Jamie Kennedy',
+                        bio: 'Keeper of the rules.',
                         photo: '',
                         isDead: true
                     }
@@ -9567,7 +10183,7 @@
             currentEditingCharacterId = null;
             
             if (currentUser) {
-                addToHistory(characterId ? `Отредактировал персонажа: ${name}` : `Добавил персонажа: ${name}`, 'character', 'edit');
+                addToHistory(characterId ? `Edited character: ${name}` : `Added character: ${name}`, 'character', 'edit');
             }
         };
 
@@ -9585,7 +10201,7 @@
                 closeModal('confirmAlbumModal');
                 
                 if (currentUser) {
-                    addToHistory(`Удалил персонажа: ${character.name}`, 'character', 'delete');
+                    addToHistory(`Deleted character: ${character.name}`, 'character', 'delete');
                 }
             };
             document.getElementById('confirmAlbumModal').style.display = 'flex';
@@ -9754,7 +10370,7 @@
             history.pushState({ page: 'characterDetail', characterId: characterId }, '', url);
             
             if (currentUser) {
-                addToHistory(`Просмотр деталей персонажа: ${character.name}`, 'character', character.id);
+                addToHistory(`Viewed character details: ${character.name}`, 'character', character.id);
             }
             
             updateAdminUI();
@@ -9860,7 +10476,7 @@
             paragraphId = null;
             
             if (currentUser) {
-                addToHistory(`Удалил параграф`, 'paragraph', 'delete');
+                addToHistory(`Deleted paragraph`, 'paragraph', 'delete');
             }
             
             alert('Paragraph deleted successfully!');
@@ -9956,7 +10572,7 @@
             closeModal('addCharacterSectionModal');
             
             if (currentUser) {
-                addToHistory(`Добавил секцию "${title}" в детали персонажа`, 'character', 'edit');
+                addToHistory(`Added section "${title}" to character details`, 'character', 'edit');
             }
             
             alert('Section added successfully!');
@@ -10021,7 +10637,7 @@
             currentCharacterId = null;
             
             if (currentUser) {
-                addToHistory(`Добавил параграф в секцию деталей персонажа`, 'character', 'edit');
+                addToHistory(`Added paragraph to character details section`, 'character', 'edit');
             }
             
             alert('Paragraph added successfully!');
@@ -10085,7 +10701,7 @@
             currentCharacterId = null;
             
             if (currentUser) {
-                addToHistory(`Добавил заголовок в секцию деталей персонажа`, 'character', 'edit');
+                addToHistory(`Added heading to character details section`, 'character', 'edit');
             }
             
             alert('Heading added successfully!');
@@ -10125,7 +10741,7 @@
             characterSectionToDelete = null;
             
             if (currentUser) {
-                addToHistory(`Удалил секцию из деталей персонажа`, 'character', 'edit');
+                addToHistory(`Deleted section from character details`, 'character', 'edit');
             }
             
             alert('Section deleted successfully!');
@@ -10224,9 +10840,213 @@
             localStorage.setItem('scream_character_details', JSON.stringify(characterDetailsData));
             
             if (currentUser) {
-                addToHistory(`Обновил детали персонажа`, 'character', 'edit');
+                addToHistory(`Updated character details`, 'character', 'edit');
             }
         }
+
+        // ========== СИСТЕМА РЕГИСТРАЦИИ ==========
+
+        // Переключение между вкладками входа и регистрации
+        window.switchAuthTab = function(tab) {
+            const loginTab = document.getElementById('loginTabBtn');
+            const registerTab = document.getElementById('registerTabBtn');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            
+            if (tab === 'login') {
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+            } else {
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+                registerForm.style.display = 'block';
+                loginForm.style.display = 'none';
+            }
+            
+            // Очищаем ошибки
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('registerError').textContent = '';
+            
+            // Очищаем подсказку о доступности username
+            const usernameAvailability = document.getElementById('usernameAvailability');
+            if (usernameAvailability) {
+                usernameAvailability.textContent = '';
+                usernameAvailability.style.color = '#888';
+            }
+        };
+
+        // Переключение видимости пароля
+        window.togglePassword = function(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = event.currentTarget.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        };
+
+        // Валидация имени пользователя (только английские буквы, цифры и _) и проверка уникальности
+        window.validateUsername = function(input) {
+            const oldValue = input.value;
+            input.value = input.value.replace(/[^a-zA-Z0-9_]/g, '');
+            
+            // Если значение изменилось, показываем подсказку
+            if (oldValue !== input.value) {
+                const usernameAvailability = document.getElementById('usernameAvailability');
+                usernameAvailability.textContent = 'Only English letters, numbers and _ allowed';
+                usernameAvailability.style.color = '#ff8888';
+                setTimeout(() => {
+                    if (usernameAvailability.textContent === 'Only English letters, numbers and _ allowed') {
+                        usernameAvailability.textContent = '';
+                    }
+                }, 3000);
+            }
+            
+            // Проверяем уникальность username
+            checkUsernameAvailability(input.value);
+        };
+
+        // Функция для проверки уникальности username
+        function checkUsernameAvailability(username) {
+            const usernameAvailability = document.getElementById('usernameAvailability');
+            
+            if (username.length < 3) {
+                usernameAvailability.textContent = '';
+                return;
+            }
+            
+            if (usersDB[username]) {
+                usernameAvailability.textContent = '❌ Username already taken';
+                usernameAvailability.style.color = '#ff8888';
+            } else {
+                usernameAvailability.textContent = '✅ Username available';
+                usernameAvailability.style.color = '#88ff88';
+            }
+        }
+
+        // Добавляем слушатель для проверки уникальности при вводе
+        document.addEventListener('DOMContentLoaded', function() {
+            const regLogin = document.getElementById('regLogin');
+            if (regLogin) {
+                regLogin.addEventListener('input', function() {
+                    checkUsernameAvailability(this.value);
+                });
+            }
+        });
+
+        // Проверка сложности пароля
+        function validatePassword(password) {
+            if (password.length < 6) {
+                return 'Password must be at least 6 characters long';
+            }
+            if (!/[a-zA-Z]/.test(password)) {
+                return 'Password must contain at least one letter';
+            }
+            if (!/[0-9]/.test(password)) {
+                return 'Password must contain at least one number';
+            }
+            return null;
+        }
+
+        // Регистрация нового пользователя
+        window.handleRegister = function() {
+            const login = document.getElementById('regLogin').value.trim();
+            const displayName = document.getElementById('regDisplayName').value.trim();
+            const birthDate = document.getElementById('regBirthDate').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            const errorEl = document.getElementById('registerError');
+            
+            // Валидация
+            if (!login || !displayName || !birthDate || !password || !confirmPassword) {
+                errorEl.textContent = 'All fields are required!';
+                return;
+            }
+            
+            if (login.length < 3) {
+                errorEl.textContent = 'Username must be at least 3 characters long';
+                return;
+            }
+            
+            if (!login.match(/^[a-zA-Z0-9_]+$/)) {
+                errorEl.textContent = 'Username can only contain English letters, numbers and _';
+                return;
+            }
+            
+            // Проверка на существующего пользователя
+            if (usersDB[login]) {
+                errorEl.textContent = 'Username already exists';
+                return;
+            }
+            
+            const passwordError = validatePassword(password);
+            if (passwordError) {
+                errorEl.textContent = passwordError;
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                errorEl.textContent = 'Passwords do not match';
+                return;
+            }
+            
+            // Создаем нового пользователя
+            const newUser = {
+                username: login,
+                password: password,
+                displayName: displayName,
+                bio: 'New member of the nightmare 🔪',
+                birthDate: birthDate,
+                registrationDate: new Date().toISOString(),
+                avatarUrl: '',
+                favorites: [],
+                history: [],
+                isAdmin: false
+            };
+            
+            // Добавляем в базу пользователей
+            usersDB[login] = newUser;
+            
+            // Автоматически входим
+            currentUser = { ...newUser };
+            
+            // Сохраняем
+            saveUserData();
+            
+            // Закрываем модалку и обновляем UI
+            closeModal('loginModal');
+            updateAuthUI();
+            updateAllFavorites();
+            updateAdminUI();
+            
+            // Добавляем в историю
+            addToHistory('Joined the club', 'auth', 'register');
+            
+            // Сбрасываем форму
+            document.getElementById('regLogin').value = '';
+            document.getElementById('regDisplayName').value = '';
+            document.getElementById('regBirthDate').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regConfirmPassword').value = '';
+            
+            errorEl.textContent = '';
+            
+            // Очищаем подсказку о доступности
+            const usernameAvailability = document.getElementById('usernameAvailability');
+            if (usernameAvailability) {
+                usernameAvailability.textContent = '';
+            }
+            
+            alert('Account created successfully! Welcome to the nightmare 🔪');
+        };
 
         // Инициализация
         initDirectorPhotoUpload();
